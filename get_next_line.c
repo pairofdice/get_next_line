@@ -18,6 +18,6 @@ int	get_next_line(const int fd, char **line)
 	char	buff[BUFF_SIZE + 1];
 
 	ret = read(fd, buff, BUFF_SIZE);
-	write(1, buff, 2);
+	write(1, buff, ret);
 	return (ret);
 }

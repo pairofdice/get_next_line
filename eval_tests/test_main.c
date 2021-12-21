@@ -16,7 +16,17 @@ int	main(void)
 {
 	int		fd;
 	char	*line[10];
+	char	**tests = {"a_test", "aaaa_test", 0};
+	int		i;
 
-	fd = open("a_test", O_RDONLY);
-	get_next_line(fd, line);
+	i = 0;
+	while (tests[i] != 0)
+	{
+		ft_putstr("Test: ");
+		ft_putnbr(i);
+		ft_putchar('\n');
+		fd = open(tests[i], O_RDONLY);
+		get_next_line(fd, line);
+		i++;
+	}
 }
