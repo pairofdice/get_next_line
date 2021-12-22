@@ -14,17 +14,19 @@
 
 int	get_next_line(const int fd, char **line)
 {
-	static int	fd_seen;
+	static char	*fd_seen[MAX_FD];
 	int			ret;
 	char		buff[BUFF_SIZE + 1];
 
-	if (fd_seen)
+	if (!fd_seen[fd])
 	{
-
+		// read until \n or \0
+		// if until \n save spot in fd_seen and return 1?
+		// if until \0 return 0?
 	}
 	else
 	{
-		read(fd, *line, BUFF_SIZE);
+		// read(fd, *line, BUFF_SIZE);
 	}
 	return (ret);
 }
