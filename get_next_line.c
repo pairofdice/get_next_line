@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2021/12/21 14:12:44 by jsaarine         ###   ########.fr       */
+/*   Updated: 2021/12/22 12:10:32 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,24 @@
 
 int	get_next_line(const int fd, char **line)
 {
-	int		ret;
-	char	buff[BUFF_SIZE + 1];
+	static int	fd_seen;
+	int			ret;
+	char		buff[BUFF_SIZE + 1];
 
-	ret = read(fd, buff, BUFF_SIZE);
-	write(1, buff, ret);
+	if (fd_seen)
+	{
+
+	}
+	else
+	{
+		read(fd, *line, BUFF_SIZE);
+	}
 	return (ret);
 }
+
+	// check if fd has been seen
+		// if fd not seen, it is now
+		// or if we see a \0 before \n we're done reading, reset fd_seen
+	// find \n or \0
+		// put it in *line with \0
+		// save our spot in *line with the corresponding fd
