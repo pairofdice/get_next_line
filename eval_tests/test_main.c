@@ -6,12 +6,13 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2021/12/21 16:33:46 by jsaarine         ###   ########.fr       */
+/*   Updated: 2021/12/31 13:09:00 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../get_next_line.h"
 #include "../libft/libft.h"
+#include <time.h>
 
 int	main(void)
 {
@@ -20,6 +21,7 @@ int	main(void)
 	char	*tests[] = {"a_test", "aaaa_test", "x100_test", 0};
 	int		i;
 
+	clock_t tic = clock();
 	i = 0;
 	while (tests[i] != 0)
 	{
@@ -31,4 +33,8 @@ int	main(void)
 		ft_putstr(*line);
 		i++;
 	}
+
+    clock_t toc = clock();
+
+    printf("Elapsed: %f seconds\n", (double)(toc - tic) / CLOCKS_PER_SEC);
 }
