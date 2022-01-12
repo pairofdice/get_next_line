@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/12 17:04:24 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/12 17:11:26 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	get_next_line(const int fd, char **line)
 	{
 		while (ret)
 		{
-			ret = read(fd, line, BUFF_SIZE);
+			ret = read(fd, temp_string?, BUFF_SIZE);
 		}
 	}
 	return (0);
