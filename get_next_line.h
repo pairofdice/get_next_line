@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 14:13:00 by jsaarine          #+#    #+#             */
-/*   Updated: 2021/12/22 11:59:42 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:14:59 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,11 @@
 # include "libft/libft.h"
 
 int	get_next_line(const int fd, char **line);
+
+typedef struct s_buff
+{
+	size_t	index;
+	t_vec	*content;
+}	t_buff;
 
 #endif

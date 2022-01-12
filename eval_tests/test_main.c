@@ -6,13 +6,14 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2021/12/31 13:09:00 by jsaarine         ###   ########.fr       */
+/*   Updated: 2021/12/31 13:11:38 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../get_next_line.h"
 #include "../libft/libft.h"
 #include <time.h>
+#include <stdio.h>
 
 int	main(void)
 {
@@ -35,6 +36,5 @@ int	main(void)
 	}
 
     clock_t toc = clock();
-
     printf("Elapsed: %f seconds\n", (double)(toc - tic) / CLOCKS_PER_SEC);
 }
