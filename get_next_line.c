@@ -6,11 +6,22 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/20 16:32:27 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/20 18:54:11 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static int	buff_new(t_buff new_buff)
+{
+	t_vec	vec;
+
+	if (vec_new(&vec, BUFF_SIZE * 2, sizeof(char)) == -1)
+		return (-1);
+	new_buff.content_vec = &vec;
+	new_buff.index = 0;
+	return (1);
+}
 
 int	get_next_line(const int fd, char **line)
 {
@@ -22,27 +33,35 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd > MAX_FD || fd < 0 || !line)
 		return (-1);
+
+
+
 	if (fd_seen[fd])
 	{
-		if (fd_seen[fd]->index - 1 >= fd_seen[fd]->content->len)
+		if (fd_seen[fd]->index - 1 >= fd_seen[fd]->content_vec->len)
 		{
 			return (0);
 		}
-		temp = *fd_seen[fd]->content;
-		line = temp.memory[fd_seen[fd]->index];
+		*line = temp.memory[fd_seen[fd]->index];
 		return (1);
 	}
 	else
 	{
-		if (vec_new(&new, BUFF_SIZE * 2, sizeof(**line)) == -1)
-			return (-1);
+
 		ret = read(fd, temp_string, BUFF_SIZE);
 		while (ret > 0)
 		{
-			temp_string[ret] = '\0';
-			ft_putendl(temp_string);
+			if (
+				vec_from(&temp,
+				&temp_string,
+				ret,
+				sizeof(char)) == -1)
+				return (-1);
+			if (vec_append(&dest_vec, &temp) == -1)
+				return (-1);
 			ret = read(fd, temp_string, BUFF_SIZE);
 		}
+
 	}
 	return (0);
 }
