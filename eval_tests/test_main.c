@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2021/12/31 13:11:38 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/18 14:16:16 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ int	main(void)
 
 	clock_t tic = clock();
 	i = 0;
-	while (tests[i] != 0)
+	while (tests[i])
 	{
 		ft_putstr("Test: ");
 		ft_putnbr(i);
 		ft_putchar('\n');
 		fd = open(tests[i], O_RDONLY);
 		get_next_line(fd, line);
-		ft_putstr(*line);
+		//ft_putstr(*line);
 		i++;
 	}
 
