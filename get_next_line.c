@@ -6,20 +6,20 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/20 18:54:11 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/21 10:04:29 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	buff_new(t_buff new_buff)
+static int	buff_new(t_buff *new_buff)
 {
 	t_vec	vec;
 
 	if (vec_new(&vec, BUFF_SIZE * 2, sizeof(char)) == -1)
 		return (-1);
-	new_buff.content_vec = &vec;
-	new_buff.index = 0;
+	new_buff->content_vec = &vec;
+	new_buff->index = 0;
 	return (1);
 }
 
@@ -33,8 +33,6 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd > MAX_FD || fd < 0 || !line)
 		return (-1);
-
-
 
 	if (fd_seen[fd])
 	{
@@ -53,11 +51,12 @@ int	get_next_line(const int fd, char **line)
 		{
 			if (
 				vec_from(&temp,
-				&temp_string,
+				temp_string,
 				ret,
 				sizeof(char)) == -1)
 				return (-1);
-			if (vec_append(&dest_vec, &temp) == -1)
+			// we need a buff before we can do this v
+			if (vec_append(&fd_seen[fd]->content_vec, &temp) == -1)
 				return (-1);
 			ret = read(fd, temp_string, BUFF_SIZE);
 		}
