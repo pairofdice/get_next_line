@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/21 10:16:01 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/21 17:32:51 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	get_next_line(const int fd, char **line)
 	{
 		if (fd_seen[fd]->index - 1 >= fd_seen[fd]->content_vec->len)
 		{
+			// we've gone through the whole thing and need to free stuff
+			// TODO
 			return (0);
 		}
-		*line = temp_vec.memory[fd_seen[fd]->index];
-		return (1);
 	}
 	else
 	{
@@ -52,11 +52,10 @@ int	get_next_line(const int fd, char **line)
 		ret = read(fd, temp_string, BUFF_SIZE);
 		while (ret > 0)
 		{
-			if (
-				vec_from(&temp_vec,
-				temp_string,
-				ret,
-				sizeof(char)) == -1)
+			if (vec_from(&temp_vec,
+						temp_string,
+						ret,
+						sizeof(char)) == -1)
 				return (-1);
 			if (vec_append(&fd_seen[fd]->content_vec, &temp_vec) == -1)
 				return (-1);
@@ -64,6 +63,10 @@ int	get_next_line(const int fd, char **line)
 		}
 
 	}
+	// I'm still not inserting terminators anywhere
+	*line = temp_vec.memory[fd_seen[fd]->index];
+	fd_seen[fd]->index += ft_strlen(temp_vec.memory[fd_seen[fd]->index] + 2);
+
 	return (0);
 }
 
