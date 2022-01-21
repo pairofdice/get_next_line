@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/21 18:07:49 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:12:23 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	get_next_line(const int fd, char **line)
 {
 	t_vec			new;
 	static t_buff	*fd_seen[MAX_FD] = {0};
-	t_buff			temp_buff;
+	t_buff			content_buff;
 	t_vec			temp_vec;
 	char			temp_string[BUFF_SIZE + 1];
 	int				ret;
@@ -46,9 +46,9 @@ int	get_next_line(const int fd, char **line)
 	}
 	else
 	{
-		if (buff_new(&temp_buff) == -1)
+		if (buff_new(&content_buff) == -1)
 			return (-1);
-		fd_seen[fd] = &temp_buff;
+		fd_seen[fd] = &content_buff;
 		ret = read(fd, temp_string, BUFF_SIZE);
 		while (ret > 0)
 		{
@@ -57,15 +57,15 @@ int	get_next_line(const int fd, char **line)
 						ret,
 						sizeof(char)) == -1)
 				return (-1);
-			if (vec_append(&fd_seen[fd]->content_vec, &temp_vec) == -1)
+			if (vec_append(content_buff.content_vec, &temp_vec) == -1)
 				return (-1);
 			ret = read(fd, temp_string, BUFF_SIZE);
 		}
 	}
 	// I'm still not inserting terminators at newlines
-	vec_push(fd_seen[fd]->content_vec, '\0');
-	*line = &temp_vec.memory[fd_seen[fd]->index];
-	fd_seen[fd]->index += ft_strlen(temp_vec.memory[fd_seen[fd]->index] + 1);
+	vec_push(fd_seen[fd]->content_vec, "\0");
+	*line = *line + fd_seen[fd]->index;
+	fd_seen[fd]->index += ft_strlen(&temp_vec.memory[fd_seen[fd]->index]) + 1;
 
 	return (0);
 }
