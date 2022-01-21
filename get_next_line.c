@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/21 10:04:29 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/21 10:16:01 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	get_next_line(const int fd, char **line)
 {
 	t_vec			new;
 	static t_buff	*fd_seen[MAX_FD] = {0};
-	t_vec			temp;
+	t_buff			temp_buff;
+	t_vec			temp_vec;
 	char			temp_string[BUFF_SIZE + 1];
 	int				ret;
 
@@ -40,23 +41,24 @@ int	get_next_line(const int fd, char **line)
 		{
 			return (0);
 		}
-		*line = temp.memory[fd_seen[fd]->index];
+		*line = temp_vec.memory[fd_seen[fd]->index];
 		return (1);
 	}
 	else
 	{
-
+		if (buff_new(&temp_buff) == -1)
+			return (-1);
+		fd_seen[fd] = &temp_buff;
 		ret = read(fd, temp_string, BUFF_SIZE);
 		while (ret > 0)
 		{
 			if (
-				vec_from(&temp,
+				vec_from(&temp_vec,
 				temp_string,
 				ret,
 				sizeof(char)) == -1)
 				return (-1);
-			// we need a buff before we can do this v
-			if (vec_append(&fd_seen[fd]->content_vec, &temp) == -1)
+			if (vec_append(&fd_seen[fd]->content_vec, &temp_vec) == -1)
 				return (-1);
 			ret = read(fd, temp_string, BUFF_SIZE);
 		}

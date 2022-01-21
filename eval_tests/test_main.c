@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/18 14:16:16 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/21 10:17:24 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(void)
 		ft_putchar('\n');
 		fd = open(tests[i], O_RDONLY);
 		get_next_line(fd, line);
-		//ft_putstr(*line);
+		ft_putendl(*line);
 		i++;
 	}
 
