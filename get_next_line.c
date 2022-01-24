@@ -11,25 +11,29 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 static int	buff_new(t_buff *new_buff)
 {
 	t_vec	vec;
 
-	if (vec_new(&vec, BUFF_SIZE * 2, sizeof(char)) == -1)
+	if (vec_new(&vec, BUFF_SIZE * 2, 1) == -1)
 		return (-1);
 	new_buff->content_vec = &vec;
 	new_buff->index = 0;
+
+	printf("In buff_new: %zu %zu %zu \n", new_buff->content_vec->alloc_size, new_buff->content_vec->len, new_buff->content_vec->elem_size);
+
 	return (1);
 }
 
 int	get_next_line(const int fd, char **line)
 {
-	t_vec			new;
+	/* t_vec			new; */
 	static t_buff	*fd_seen[MAX_FD] = {0};
 	t_buff			content_buff;
 	t_vec			temp_vec;
-	char			temp_string[BUFF_SIZE + 1];
+	char			temp_string[BUFF_SIZE];
 	int				ret;
 
 	if (fd > MAX_FD || fd < 0 || !line)
@@ -46,12 +50,16 @@ int	get_next_line(const int fd, char **line)
 	}
 	else
 	{
+
 		if (buff_new(&content_buff) == -1)
 			return (-1);
+		printf("Before read: %zu %zu %zu \n", content_buff.content_vec->alloc_size, content_buff.content_vec->len, content_buff.content_vec->elem_size);
 		fd_seen[fd] = &content_buff;
+		printf("after fd_seen: %zu %zu %zu \n", content_buff.content_vec->alloc_size, content_buff.content_vec->len, content_buff.content_vec->elem_size);
 		ret = read(fd, temp_string, BUFF_SIZE);
 		while (ret > 0)
 		{
+			printf("in while: %zu %zu %zu \n", content_buff.content_vec->alloc_size, content_buff.content_vec->len, content_buff.content_vec->elem_size);
 			if (vec_from(&temp_vec,
 						temp_string,
 						ret,

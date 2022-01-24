@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
 	take a pointer to a t_vec and allocate len * elem_size bytes
 	in the buffer as well as initialize its length and element size.
