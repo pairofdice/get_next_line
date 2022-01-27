@@ -15,14 +15,17 @@
 
 static int	buff_new(t_buff *new_buff)
 {
-	t_vec	vec;
+	t_vec	*vec;
 
-	if (vec_new(&vec, BUFF_SIZE * 2, 1) == -1)
+	vec = malloc(sizeof(vec));
+
+ 	if (vec_new(vec, BUFF_SIZE * 2, 1) == -1)
+	{
 		return (-1);
-	new_buff->content_vec = &vec;
+	} 
+	
+	new_buff->content_vec = vec;
 	new_buff->index = 0;
-
-	printf("In buff_new: %zu %zu %zu \n", new_buff->content_vec->alloc_size, new_buff->content_vec->len, new_buff->content_vec->elem_size);
 
 	return (1);
 }
@@ -30,7 +33,7 @@ static int	buff_new(t_buff *new_buff)
 int	get_next_line(const int fd, char **line)
 {
 	/* t_vec			new; */
-	static t_buff	*fd_seen[MAX_FD] = {0};
+	static t_buff	*fd_seen[MAX_FD];
 	t_buff			content_buff;
 	t_vec			temp_vec;
 	char			temp_string[BUFF_SIZE];
@@ -38,7 +41,6 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd > MAX_FD || fd < 0 || !line)
 		return (-1);
-
 	if (fd_seen[fd])
 	{
 		if (fd_seen[fd]->index - 1 >= fd_seen[fd]->content_vec->len)
@@ -50,27 +52,32 @@ int	get_next_line(const int fd, char **line)
 	}
 	else
 	{
-
+	
 		if (buff_new(&content_buff) == -1)
 			return (-1);
-		printf("Before read: %zu %zu %zu \n", content_buff.content_vec->alloc_size, content_buff.content_vec->len, content_buff.content_vec->elem_size);
+		
 		fd_seen[fd] = &content_buff;
-		printf("after fd_seen: %zu %zu %zu \n", content_buff.content_vec->alloc_size, content_buff.content_vec->len, content_buff.content_vec->elem_size);
+
 		ret = read(fd, temp_string, BUFF_SIZE);
 		while (ret > 0)
 		{
-			printf("in while: %zu %zu %zu \n", content_buff.content_vec->alloc_size, content_buff.content_vec->len, content_buff.content_vec->elem_size);
+			
+			if (vec_new(&temp_vec, BUFF_SIZE, sizeof(char)) == -1)
+				return (-1);
 			if (vec_from(&temp_vec,
 						temp_string,
 						ret,
 						sizeof(char)) == -1)
 				return (-1);
+			// con-vec: 1 22 2, temp-vec: 1 2 2
+			
 			if (vec_append(content_buff.content_vec, &temp_vec) == -1)
 				return (-1);
 			ret = read(fd, temp_string, BUFF_SIZE);
 		}
 	}
 	// I'm still not inserting terminators at newlines
+	// MALLOC LINE!???
 	vec_push(fd_seen[fd]->content_vec, "\0");
 	*line = *line + fd_seen[fd]->index;
 	fd_seen[fd]->index += ft_strlen(&temp_vec.memory[fd_seen[fd]->index]) + 1;

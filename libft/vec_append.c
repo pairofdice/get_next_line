@@ -19,24 +19,20 @@ int	vec_append(t_vec *dst, t_vec *src)
 {
 	size_t	space_needed;
 
-printf("something %zu\n", dst->len);
 	if (!dst || !src || !src->memory)
 		return (-1);
 	if (!dst->memory)
-		vec_new(dst, 1, dst->elem_size);
-	space_needed = dst->len * dst->elem_size + src->len * src->elem_size;
-	printf("%zu\n", dst->len);
+		vec_new(dst, 1, 1);
+	space_needed = dst->len * 1 + src->len * 1;
 	if (dst->alloc_size < space_needed)
 	{
 		if (vec_resize(dst, space_needed * 2) == -1)
 			return (-1);
 	}
-	ft_putendl("in append3");
 	ft_memcpy(
-		&dst->memory[dst->len * dst->elem_size],
+		&dst->memory[dst->len * 1],
 		src->memory,
-		src->len * src->elem_size);
-	ft_putendl("in append4");
+		src->len * 1);
 	dst->len += src->len;
 	return (1);
 }

@@ -18,11 +18,14 @@
 int	main(void)
 {
 	int		fd;
-	char	*line[BUFF_SIZE + 1];
+	char	*line[4000];
 	char	*tests[] = {"a_test", "aaaa_test", "x100_test", 0};
 	int		i;
 
 	clock_t tic = clock();
+
+
+
 	i = 0;
 	while (tests[i])
 	{
@@ -31,6 +34,7 @@ int	main(void)
 		ft_putchar('\n');
 		fd = open(tests[i], O_RDONLY);
 		get_next_line(fd, line);
+		ft_putendl("jee");
 		ft_putendl(*line);
 		i++;
 	}
@@ -38,3 +42,4 @@ int	main(void)
     clock_t toc = clock();
     printf("Elapsed: %f seconds\n", (double)(toc - tic) / CLOCKS_PER_SEC);
 }
+

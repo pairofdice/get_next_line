@@ -18,6 +18,7 @@
 */
 int	vec_new(t_vec *src, size_t init_len, size_t elem_size)
 {
+	
 	if (!src || elem_size == 0)
 		return (-1);
 	if (init_len == 0)
