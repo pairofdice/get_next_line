@@ -25,7 +25,7 @@ typedef struct s_list
 }	t_list;
 typedef struct s_vec
 {
-	char	*memory;
+	char			*memory;
 	size_t			elem_size;
 	size_t			alloc_size;
 	size_t			len;

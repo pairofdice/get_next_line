@@ -32,56 +32,25 @@ static int	buff_new(t_buff *new_buff)
 
 int	get_next_line(const int fd, char **line)
 {
-	/* t_vec			new; */
-	static t_buff	*fd_seen[MAX_FD];
-	t_buff			content_buff;
-	t_vec			temp_vec;
-	char			temp_string[BUFF_SIZE];
-	int				ret;
+	char		read_into[BUFF_SIZE + 1];
+	t_vec		transfer;
+	t_buff		buffer;
+	ssize_t		ret;
 
-	if (fd > MAX_FD || fd < 0 || !line)
-		return (-1);
-	if (fd_seen[fd])
+
+
+	buff_new(&buffer);
+	ret = read(fd, read_into, BUFF_SIZE);
+	while (ret > 0)
 	{
-		if (fd_seen[fd]->index - 1 >= fd_seen[fd]->content_vec->len)
-		{
-			// we've gone through the whole thing and need to free stuff
-			// TODO
-			return (0);
-		}
+		vec_free(&transfer);
+		vec_from(&transfer, read_into, BUFF_SIZE, 1);
+		vec_append(buffer.content_vec, &transfer);
+		ret = read(fd, read_into, BUFF_SIZE);
 	}
-	else
-	{
-	
-		if (buff_new(&content_buff) == -1)
-			return (-1);
-		
-		fd_seen[fd] = &content_buff;
-
-		ret = read(fd, temp_string, BUFF_SIZE);
-		while (ret > 0)
-		{
-			
-			if (vec_new(&temp_vec, BUFF_SIZE, sizeof(char)) == -1)
-				return (-1);
-			if (vec_from(&temp_vec,
-						temp_string,
-						ret,
-						sizeof(char)) == -1)
-				return (-1);
-			// con-vec: 1 22 2, temp-vec: 1 2 2
-			
-			if (vec_append(content_buff.content_vec, &temp_vec) == -1)
-				return (-1);
-			ret = read(fd, temp_string, BUFF_SIZE);
-		}
-	}
-	// I'm still not inserting terminators at newlines
-	// MALLOC LINE!???
-	vec_push(fd_seen[fd]->content_vec, "\0");
-	*line = *line + fd_seen[fd]->index;
-	fd_seen[fd]->index += ft_strlen(&temp_vec.memory[fd_seen[fd]->index]) + 1;
-
+	vec_push(buffer.content_vec, "\0");
+	line = malloc(buffer.content_vec->alloc_size);
+	*line = ft_strdup(buffer.content_vec->memory);
 	return (0);
 }
 
