@@ -18,7 +18,7 @@
 int	main(void)
 {
 	int		fd;
-	char	**line;
+	char	*line[50000];
 	char	*tests[] = {"a_test", "aaaa_test", "x100_test", 0};
 	int		i;
 
@@ -34,8 +34,7 @@ int	main(void)
 		ft_putchar('\n');
 		fd = open(tests[i], O_RDONLY);
 		get_next_line(fd, line);
-		ft_putendl("jee");
-		ft_putendl(*line);
+		printf("%s", *line);
 		ft_strdel(line);
 
 		i++;

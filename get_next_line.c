@@ -13,7 +13,7 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-static int	buff_new(t_buff *new_buff)
+/* static int	buff_new(t_buff *new_buff)
 {
 	t_vec	*vec;
 
@@ -28,29 +28,30 @@ static int	buff_new(t_buff *new_buff)
 	new_buff->index = 0;
 
 	return (1);
-}
+} */
 
 int	get_next_line(const int fd, char **line)
 {
 	char		read_into[BUFF_SIZE + 1];
 	t_vec		transfer;
-	t_buff		buffer;
+	t_vec		buffer;
 	ssize_t		ret;
 
 
 
-	buff_new(&buffer);
+	vec_new(&buffer,BUFF_SIZE, 1);
+
 	ret = read(fd, read_into, BUFF_SIZE);
 	while (ret > 0)
 	{
 		vec_free(&transfer);
-		vec_from(&transfer, read_into, BUFF_SIZE, 1);
-		vec_append(buffer.content_vec, &transfer);
+		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
+		vec_append(&buffer, &transfer);
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
-	vec_push(buffer.content_vec, "\0");
-	line = malloc(buffer.content_vec->alloc_size);
-	*line = ft_strdup(buffer.content_vec->memory);
+	vec_push(&buffer, "\0");
+	//*line = malloc(buffer.alloc_size);
+	*line = ft_strdup(buffer.memory);
 	return (0);
 }
 
