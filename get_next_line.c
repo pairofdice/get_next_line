@@ -50,7 +50,7 @@ int	get_next_line(const int fd, char **line)
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
 	vec_push(&buffer, "\0");
-	//*line = malloc(buffer.alloc_size);
+	//line = malloc(sizeof(char *));
 	*line = ft_strdup(buffer.memory);
 	return (0);
 }
