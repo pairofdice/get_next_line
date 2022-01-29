@@ -34,7 +34,7 @@ int	get_next_line(const int fd, char **line)
 {
 	char		read_into[BUFF_SIZE + 1];
 	char 		*hodl;
-	t_vec		*fd_seen[MAX_FD];
+	static t_vec		*fd_seen[MAX_FD];
 	t_vec		transfer;
 	t_vec		buffer;
 	ssize_t		ret;
