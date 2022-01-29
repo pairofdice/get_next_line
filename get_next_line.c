@@ -33,26 +33,51 @@
 int	get_next_line(const int fd, char **line)
 {
 	char		read_into[BUFF_SIZE + 1];
+	char 		*hodl;
+	t_vec		*fd_seen[MAX_FD];
 	t_vec		transfer;
 	t_vec		buffer;
 	ssize_t		ret;
 
 
+	if (fd_seen[fd])
+	{
+		ft_putendl("Hi");
+		fd_seen[fd]->memory += 1;
+	}
+	else
+	{
+		vec_new(&buffer,BUFF_SIZE, 1);
+		fd_seen[fd] = &buffer;
+	}
 
-	vec_new(&buffer,BUFF_SIZE, 1);
 
 	ret = read(fd, read_into, BUFF_SIZE);
 	while (ret > 0)
 	{
+		ft_putendl("Ah");
 		vec_free(&transfer);
+		ft_putendl("Ahh");
 		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-		vec_append(&buffer, &transfer);
+		
+		vec_append(fd_seen[fd], &transfer);
+		hodl = ft_strchr(fd_seen[fd]->memory, '\n');
+		if (hodl)
+		{
+			fd_seen[fd]->memory[hodl - fd_seen[fd]->memory] = '\0';
+			break;
+		}
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
-	vec_push(&buffer, "\0");
-	//line = malloc(sizeof(char *));
-	*line = ft_strdup(buffer.memory);
-	return (0);
+	vec_push(fd_seen[fd], "\0");
+	*line = ft_strdup(fd_seen[fd]->memory);
+	if (ft_strlen(fd_seen[fd]->memory) == 0)
+	{
+		vec_free(fd_seen[fd]);
+		fd_seen[fd] = 0;
+		return (0);
+	}
+	return (1);
 }
 
 /*
