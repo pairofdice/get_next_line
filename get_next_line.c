@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/21 19:12:23 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:28:07 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ int	get_next_line(const int fd, char **line)
 	ssize_t			ret;
 
 
+	transfer.memory = NULL;
+
 	if (fd_seen[fd])
 	{
-		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
-		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
+		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory) + 1;
+		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory) + 1;
 		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) + 1)
 		{
 			vec_free(fd_seen[fd]);
@@ -45,33 +47,36 @@ int	get_next_line(const int fd, char **line)
 	while (ret > 0)
 	{
 
-		vec_free(&transfer);
+		if (transfer.memory)
+			vec_free(&transfer);
 		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-		
+
 		vec_append(fd_seen[fd], &transfer);
 		hodl = ft_strchr(fd_seen[fd]->memory, '\n');
 		if (hodl)
 		{
 			fd_seen[fd]->memory[hodl - fd_seen[fd]->memory] = '\0';
-			break;
+			fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
+	//ft_putendl("Tässäkö");
+
+				break;
 		}
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
 
-	if (fd_seen[fd] != 0)
+	/* if (fd_seen[fd] != 0)
 	{
 		vec_push(fd_seen[fd], "\0");
-	}
-
+	} */
 	if (fd_seen[fd]->len > 0)
 		*line = ft_strdup(fd_seen[fd]->memory);
-	else 
+	/* else
 	{
 		vec_free(fd_seen[fd]);
 		fd_seen[fd] = 0;
 		return (0);
 	}
-
+ */
 	return (1);
 }
 
