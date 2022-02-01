@@ -27,9 +27,9 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd_seen[fd])
 	{
-		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory) + 1;
-		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory) + 1;
-		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) + 1)
+		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory) ;
+		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory) ;
+		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) )
 		{
 			vec_free(fd_seen[fd]);
 			fd_seen[fd] = 0;
@@ -49,7 +49,9 @@ int	get_next_line(const int fd, char **line)
 
 		if (transfer.memory)
 			vec_free(&transfer);
-		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
+
+	/* 	ft_putendl("Tässäkö"); */
+		vec_from(&transfer, read_into, ft_strlen(read_into), 1); // problem here
 
 		vec_append(fd_seen[fd], &transfer);
 		hodl = ft_strchr(fd_seen[fd]->memory, '\n');
@@ -57,7 +59,6 @@ int	get_next_line(const int fd, char **line)
 		{
 			fd_seen[fd]->memory[hodl - fd_seen[fd]->memory] = '\0';
 			fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
-	//ft_putendl("Tässäkö");
 
 				break;
 		}
@@ -70,13 +71,12 @@ int	get_next_line(const int fd, char **line)
 	} */
 	if (fd_seen[fd]->len > 0)
 		*line = ft_strdup(fd_seen[fd]->memory);
-	/* else
+	else
 	{
 		vec_free(fd_seen[fd]);
 		fd_seen[fd] = 0;
 		return (0);
 	}
- */
+ 
 	return (1);
 }
-
