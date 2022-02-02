@@ -38,7 +38,7 @@ int	main(void)
 		{
 			get_next_line(fd, &line);
 			ft_putendl(line);
-			//ft_strdel(&line);
+			ft_strdel(&line);
 			}
 		x= 0;
 
