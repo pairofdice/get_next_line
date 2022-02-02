@@ -22,14 +22,11 @@ int	get_next_line(const int fd, char **line)
 	t_vec			buffer;
 	ssize_t			ret;
 
-
-	transfer.memory = NULL;
-
 	if (fd_seen[fd])
 	{
-		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory) ;
-		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory) ;
-		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) )
+		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
+		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
+		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory))
 		{
 			vec_free(fd_seen[fd]);
 			fd_seen[fd] = 0;
