@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 20:03:52 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/20 16:27:55 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/02 18:15:18 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ int	vec_append(t_vec *dst, t_vec *src)
 	{
 		if (vec_resize(dst, space_needed * 2) == -1)
 			return (-1);
+		dst->alloc_size = space_needed * 2;
 	}
 	ft_memcpy(
 		&dst->memory[dst->len * dst->elem_size],
 		src->memory,
 		src->len * 1);
 	dst->len += src->len;
+	vec_free(src);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 20:03:27 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/12 20:08:53 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/02 18:22:12 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@ int	vec_resize(t_vec *src, size_t target_size)
 		return (-1);
 	if (vec_new(&resized, target_size, src->elem_size) == -1)
 		return (-1);
-	if (src->len > target_size)
+/* 	if (src->alloc_size > target_size )
 	{
 		ft_memcpy(resized.memory, src->memory, target_size * src->elem_size);
 		resized.len = target_size;
+		resized.alloc_size = target_size * src->elem_size;
 	}
 	else
 	{
-		ft_memcpy(resized.memory, src->memory, src->alloc_size);
+		*/
+		ft_memcpy(resized.memory, src->memory, src->len);
+		//resized.len = src->len;
 		resized.len = src->len;
-	}
-	vec_free(src);
+		resized.alloc_size = target_size ;
+
+	//free(src->memory);
 	*src = resized;
 	return (1);
 }

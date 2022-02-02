@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/31 18:21:52 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/02 18:34:24 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ int	main(void)
 
     clock_t toc = clock();
     printf("Elapsed: %f seconds\n", (double)(toc - tic) / CLOCKS_PER_SEC);
+	system("leaks a.out");
+	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/31 18:28:07 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/02 18:48:08 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,34 @@ int	get_next_line(const int fd, char **line)
 {
 	char			read_into[BUFF_SIZE + 1];
 	char			*hodl;
-	static t_vec	*fd_seen[MAX_FD] = {0};
+	static t_vec	*fd_seen[MAX_FD];
 	t_vec			transfer;
 	t_vec			buffer;
 	ssize_t			ret;
 
 	if (fd_seen[fd])
 	{
+<<<<<<< HEAD
 		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
 		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
 		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory))
+=======
+/* 		printf("fd buffer %s\n", fd_seen[fd]->memory);
+		printf("fd buffer alloc size %zu\n", fd_seen[fd]->alloc_size); */
+		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
+		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
+		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) + 1)
+>>>>>>> 0266ab5f0a06b0df4fde6dfd3ef416276af83ff9
 		{
-			vec_free(fd_seen[fd]);
+		/* 	vec_free(fd_seen[fd]); */
 			fd_seen[fd] = 0;
 			return (0);
 		}
+		//printf("fd buffer len%zu\n", fd_seen[fd]->len);
 	}
 	else
 	{
-		vec_new(&buffer,BUFF_SIZE, 1);
+		vec_new(&buffer,BUFF_SIZE + 1, 1);
 		fd_seen[fd] = &buffer;
 	}
 
@@ -44,19 +53,22 @@ int	get_next_line(const int fd, char **line)
 	while (ret > 0)
 	{
 
-		if (transfer.memory)
-			vec_free(&transfer);
+/* 		if (transfer.memory)
+			vec_free(&transfer); */
+		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
 
-	/* 	ft_putendl("Tässäkö"); */
-		vec_from(&transfer, read_into, ft_strlen(read_into), 1); // problem here
-
-		vec_append(fd_seen[fd], &transfer);
+/* 	ft_putendl("Tässäkö3");
+ */		vec_append(fd_seen[fd], &transfer);
+/* 	ft_putendl("Tässäkö2");
+ */		vec_free(&transfer);
 		hodl = ft_strchr(fd_seen[fd]->memory, '\n');
 		if (hodl)
 		{
-			fd_seen[fd]->memory[hodl - fd_seen[fd]->memory] = '\0';
+			*hodl = '\0';
 			fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
-
+			printf(" len hodl %zu\n", fd_seen[fd]->len);
+/* 	ft_putendl("Tässäkö");
+ */
 				break;
 		}
 		ret = read(fd, read_into, BUFF_SIZE);
@@ -68,12 +80,11 @@ int	get_next_line(const int fd, char **line)
 	} */
 	if (fd_seen[fd]->len > 0)
 		*line = ft_strdup(fd_seen[fd]->memory);
-	else
+	 else
 	{
 		vec_free(fd_seen[fd]);
 		fd_seen[fd] = 0;
 		return (0);
 	}
- 
 	return (1);
 }
