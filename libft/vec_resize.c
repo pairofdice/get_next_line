@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 20:03:27 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/02 18:22:12 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/02 21:48:47 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	vec_resize(t_vec *src, size_t target_size)
 		resized.alloc_size = target_size ;
 
 	//free(src->memory);
+	//vec_free(&resized);
 	*src = resized;
 	return (1);
 }
