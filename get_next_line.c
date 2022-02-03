@@ -34,7 +34,8 @@ int	get_next_line(const int fd, char **line)
 		}
 	}
 	else
-	{
+	{  
+		
 		vec_new(&buffer,BUFF_SIZE + 1, 1);
 		fd_seen[fd] = &buffer;
 	}
