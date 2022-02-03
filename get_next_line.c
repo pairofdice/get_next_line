@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/02 18:48:08 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/02 22:02:13 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,11 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd_seen[fd])
 	{
-<<<<<<< HEAD
-		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
-		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
-		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory))
-=======
 /* 		printf("fd buffer %s\n", fd_seen[fd]->memory);
 		printf("fd buffer alloc size %zu\n", fd_seen[fd]->alloc_size); */
 		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
 		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
 		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) + 1)
->>>>>>> 0266ab5f0a06b0df4fde6dfd3ef416276af83ff9
 		{
 		/* 	vec_free(fd_seen[fd]); */
 			fd_seen[fd] = 0;
@@ -52,7 +46,7 @@ int	get_next_line(const int fd, char **line)
 	ret = read(fd, read_into, BUFF_SIZE);
 	while (ret > 0)
 	{
-
+		read_into[ret] = '\0';
 /* 		if (transfer.memory)
 			vec_free(&transfer); */
 		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
@@ -73,12 +67,12 @@ int	get_next_line(const int fd, char **line)
 		}
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
-
-	/* if (fd_seen[fd] != 0)
+/*
+	 if (fd_seen[fd] != 0)
 	{
 		vec_push(fd_seen[fd], "\0");
 	} */
-	if (fd_seen[fd]->len > 0)
+	if (fd_seen[fd] != 0)
 		*line = ft_strdup(fd_seen[fd]->memory);
 	 else
 	{
