@@ -48,7 +48,7 @@ int	main(void)
 
     clock_t toc = clock();
     printf("Elapsed: %f seconds\n", (double)(toc - tic) / CLOCKS_PER_SEC);
-	system("leaks a.out");
+	//system("leaks a.out");
 	return (0);
 }
 

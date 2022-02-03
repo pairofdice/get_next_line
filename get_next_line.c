@@ -15,7 +15,7 @@
 
 int	get_next_line(const int fd, char **line)
 {
-	char			read_into[BUFF_SIZE + 1] = {'k', 'k'};
+	char			read_into[BUFF_SIZE + 1];
 	char			*hodl;
 	static t_vec	*fd_seen[MAX_FD];
 	t_vec			transfer;
@@ -50,18 +50,11 @@ int	get_next_line(const int fd, char **line)
 		{
 			*hodl = '\0';
 			fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
-			printf(" len hodl %zu\n", fd_seen[fd]->len);
-				break;
+			break;
 		}
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
-	if (fd_seen[fd] != 0)
-		*line = ft_strdup(fd_seen[fd]->memory);
-	 else
-	{
-		vec_free(fd_seen[fd]);
-		fd_seen[fd] = 0;
-		return (0);
-	}
+	//vec_push(fd_seen[fd], "\0");
+	*line = ft_strdup(fd_seen[fd]->memory);
 	return (1);
 }
