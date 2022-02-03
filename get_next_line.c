@@ -19,7 +19,7 @@ int	get_next_line(const int fd, char **line)
 	char			*hodl;
 	static t_vec	*fd_seen[MAX_FD];
 	t_vec			transfer;
-	t_vec			buffer;
+	statict_vec			buffer;
 	ssize_t			ret;
 
 	if (fd_seen[fd])
@@ -35,7 +35,7 @@ int	get_next_line(const int fd, char **line)
 	}
 	else
 	{  
-		
+
 		vec_new(&buffer,BUFF_SIZE + 1, 1);
 		fd_seen[fd] = &buffer;
 	}
@@ -55,7 +55,6 @@ int	get_next_line(const int fd, char **line)
 		}
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
-	//vec_push(fd_seen[fd], "\0");
 	*line = ft_strdup(fd_seen[fd]->memory);
 	return (1);
 }
