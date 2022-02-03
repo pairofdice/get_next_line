@@ -24,17 +24,11 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd_seen[fd])
 	{
-<<<<<<< HEAD
-		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
-		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
-		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory))
-=======
 /* 		printf("fd buffer %s\n", fd_seen[fd]->memory);
 		printf("fd buffer alloc size %zu\n", fd_seen[fd]->alloc_size); */
 		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory);
 		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory);
 		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) + 1)
->>>>>>> 0266ab5f0a06b0df4fde6dfd3ef416276af83ff9
 		{
 		/* 	vec_free(fd_seen[fd]); */
 			fd_seen[fd] = 0;
