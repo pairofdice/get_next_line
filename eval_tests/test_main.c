@@ -34,9 +34,8 @@ int	main(void)
 		ft_putnbr(i);
 		ft_putchar('\n');
 		fd = open(tests[i], O_RDONLY);
-		while (x++ < 3)
+		while (get_next_line(fd, &line))
 		{
-			get_next_line(fd, &line);
 			ft_putendl(line);
 			ft_strdel(&line);
 			}

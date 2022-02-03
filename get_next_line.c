@@ -19,7 +19,7 @@ int	get_next_line(const int fd, char **line)
 	char			*hodl;
 	static t_vec	*fd_seen[MAX_FD];
 	t_vec			transfer;
-	statict_vec			buffer;
+	static t_vec			buffer;
 	ssize_t			ret;
 
 	if (fd_seen[fd])
