@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/04 10:08:00 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:11:37 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_next_line(const int fd, char **line)
 {
 	char			read_into[BUFF_SIZE + 1];
 	char			*hodl;
-	static t_vec	*fd_seen[MAX_FD];
+	t_vec	*fd_seen[MAX_FD];
 	t_vec			transfer;
 	static t_vec			buffer;
 	ssize_t			ret;
@@ -48,6 +48,8 @@ int	get_next_line(const int fd, char **line)
 		fd_seen[fd] = &buffer;
 	}
 	ret = read(fd, read_into, BUFF_SIZE);
+	if (ret == 0)
+		return (0);
 	while (ret > 0)
 	{
 		read_into[ret] = '\0';
