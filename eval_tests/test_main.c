@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/02 18:34:24 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:25:44 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 {
 	int		fd;
 	char	*line;
-	char	*tests[] = {/* "a_test", "aaaa_test", */ "x100_test", "long_lines", 0};
+	char	*tests[] = {/* "a_test", "aaaa_test",  "x100_test", "long_lines", */"150xlorem", /* "plato", */ 0};
 	int		i;
 	int x = 0;
 
@@ -36,6 +36,11 @@ int	main(void)
 		fd = open(tests[i], O_RDONLY);
 		while (get_next_line(fd, &line))
 		{
+
+/* 		while (x++ < 10)
+		{
+			ft_putnbr( get_next_line(fd, &line)); */
+			ft_putchar(' ');
 			ft_putendl(line);
 			ft_strdel(&line);
 			}
