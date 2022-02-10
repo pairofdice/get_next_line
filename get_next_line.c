@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/04 11:11:37 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/10 11:21:08 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,13 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd_seen[fd])
 	{
-		//vec_push(fd_seen[fd], "\0");
-		len = fd_seen[fd]->len;
+		 // vec_push(fd_seen[fd], "\0");
+		if (fd_seen[fd]->len == 0)
+		{
+			vec_free(fd_seen[fd]);
+			fd_seen[fd] = 0;
+			return (-1);
+		}
 		if (fd_seen[fd]->len >= ft_strlen(fd_seen[fd]->memory) + 1)
 		{
 			fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory) + 1; // need a check for this
@@ -46,7 +51,7 @@ int	get_next_line(const int fd, char **line)
 	else
 	{
 
-		vec_new(&buffer, BUFF_SIZE + 1, 1);
+		vec_new(&buffer, BUFF_SIZE, 1);
 		fd_seen[fd] = &buffer;
 	}
 	ret = read(fd, read_into, BUFF_SIZE);

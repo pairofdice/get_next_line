@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 20:03:42 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/20 15:30:45 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/09 19:44:00 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 */
 int	vec_new(t_vec *src, size_t init_len, size_t elem_size)
 {
-	
+
 	if (!src || elem_size == 0)
 		return (-1);
 	if (init_len == 0)
 		src->memory = NULL;
 	else
 	{
-		src->memory = malloc(init_len * elem_size);
+		src->memory =(char *) malloc(init_len * elem_size);
 		if (!src->memory)
 			return (-1);
 	}
