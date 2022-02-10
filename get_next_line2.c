@@ -35,10 +35,14 @@ if (!fd_seen[fd])
 	fd_seen[fd] = &buffer;
 }
 // if we have stuff in memory we have to keep finding newlines until there are no more
+/* else {
+	hodl = ft_strchr(read_into, '\n');
+	*hodl = '\0'
+} */
 
 if (i > 0)
 {
-/* 	printf("%s   %i\n", fd_seen[fd]->memory, i); */
+ 	printf("%s   %i\n", fd_seen[fd]->memory, i); 
 	if (i > 6)
 		return 0;
 }

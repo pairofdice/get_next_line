@@ -34,11 +34,11 @@ int	main(void)
 		ft_putnbr(i);
 		ft_putchar('\n');
 		fd = open(tests[i], O_RDONLY);
-		while (get_next_line(fd, &line, i2) != 0)
+		while (get_next_line(fd, &line) )
 		{
-			printf("%s  %d\n", line, i2);
+			printf("%s\n", line);
 			ft_strdel(&line);
-			i2++;
+			/* i2++; */
 		}
 		{
 
