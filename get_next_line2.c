@@ -13,31 +13,46 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-int	get_next_line(const int fd, char **line)
+
+/* void jotain(t_vec &buffer)
+{
+
+} */
+
+int	get_next_line(const int fd, char **line, int i)
 {
 	char			read_into[BUFF_SIZE + 1];
 	char			*hodl;
-	t_vec			*fd_seen[MAX_FD] = {0};
+	t_vec			*fd_seen[MAX_FD];
 	t_vec			transfer;
 	static t_vec	buffer;
 	ssize_t			ret;
 	int				len;
-
 
 if (!fd_seen[fd])
 {
 	vec_new(&buffer, BUFF_SIZE * 2, 1);
 	fd_seen[fd] = &buffer;
 }
+// if we have stuff in memory we have to keep finding newlines until there are no more
+
+if (i > 0)
+{
+/* 	printf("%s   %i\n", fd_seen[fd]->memory, i); */
+	if (i > 6)
+		return 0;
+}
+
+
 ret = read(fd, read_into, BUFF_SIZE);
 while (ret > 0)
 {
 	read_into[ret] = '\0';					//vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-	/* vec_strapp(fd_seen[fd], read_into); */
+/* 	vec_strapp(fd_seen[fd], read_into); */
 	vec_from(&transfer, read_into, ft_strlen(read_into), 1);
 	vec_append(fd_seen[fd], &transfer);
 
-	hodl = ft_strchr(fd_seen[fd]->memory, '\n');
+	hodl = ft_strchr(read_into, '\n');
 	if (hodl)
 	{
 		*hodl = '\0';						// fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
@@ -53,9 +68,6 @@ if (fd_seen[fd]->len == 0)
 	return (0);
 }
 
-
-
-// if ret == 0 when? ...right after while loop, duh
 
 
 	*line = ft_strdup(fd_seen[fd]->memory);
