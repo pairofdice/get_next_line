@@ -19,11 +19,7 @@ int	main(void)
 {
 	int		fd;
 	char	*line;
-<<<<<<< HEAD
 	char	*tests[] = {/* "a_test", "aaaa_test",  "x100_test", "long_lines", "150xlorem", */ "plato",  0};
-=======
-	char	*tests[] = { "a_test", "many_empty", "aaaa_test",  "x100_test", "long_lines", "150xlorem",    "plato",  0};
->>>>>>> bb596385fbd483413469b11d6b254f37e46a3deb
 	int		i;
 	int x = 0;
 

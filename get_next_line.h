@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 1
+# define BUFF_SIZE 7
 # define MAX_FD 8192
 
 # include <fcntl.h>
@@ -21,11 +21,5 @@
 # include "libft/libft.h"
 
 int	get_next_line(const int fd, char **line);
-
-typedef struct s_buff
-{
-	size_t	index;
-	t_vec	*content_vec;
-}	t_buff;
 
 #endif
