@@ -17,20 +17,20 @@ int	get_next_line(const int fd, char **line)
 {
 	char			read_into[BUFF_SIZE + 1];
 	char			*hodl;
-	t_vec	*fd_seen[MAX_FD];
+	t_vec			*fd_seen[MAX_FD];
 	t_vec			transfer;
-	static t_vec			buffer;
+	static t_vec	buffer;
 	ssize_t			ret;
+	ssize_t			len;
 
 	if (fd_seen[fd])
 	{
-		vec_push(fd_seen[fd], "\0");
-		fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory) + 1;
-		fd_seen[fd]->len -= ft_strlen(fd_seen[fd]->memory) + 1;
-		if (fd_seen[fd]->len == ft_strlen(fd_seen[fd]->memory) + 1)
+		//vec_push(fd_seen[fd], "\0");
+		len = fd_seen[fd]->len;
+		if (fd_seen[fd]->len >= ft_strlen(fd_seen[fd]->memory) + 1)
 		{
 			fd_seen[fd]->memory += ft_strlen(fd_seen[fd]->memory) + 1; // need a check for this
-		fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory) ;
+			fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory) ;
 
 		}
 		else
