@@ -36,7 +36,7 @@ SRCS =	ft_memset.c		ft_bzero.c		ft_memcpy.c		ft_memccpy.c	\
 		ft_min.c 		ft_max.c		ft_abs.c						\
 		\
 		vec_new.c		vec_free.c		vec_from.c		vec_resize.c	\
-		vec_push.c		vec_append.c
+		vec_push.c		vec_append.c	vec_strapp.c
 
 
 

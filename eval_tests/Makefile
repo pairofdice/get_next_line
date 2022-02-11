@@ -1,6 +1,6 @@
 NAME = a.out
 
-SRCS = 	../get_next_line.c
+SRCS = 	../get_next_line2.c
 
 HDRS = ../get_next_line.h ../libft/libft.h
 

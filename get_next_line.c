@@ -21,6 +21,7 @@ int	get_next_line(const int fd, char **line)
 	t_vec			transfer;
 	static t_vec	buffer;
 	ssize_t			ret;
+	ssize_t			len;
 
 	if (fd_seen[fd])
 	{
@@ -62,7 +63,7 @@ int	get_next_line(const int fd, char **line)
 		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
  		vec_append(fd_seen[fd], &transfer);
  		//vec_free(&transfer);
-		hodl = ft_strchr(fd_seen[fd]->memory, '\n');
+		hodl = ft_strchr(read_into, '\n');
 		if (hodl)
 		{
 			*hodl = '\0';
