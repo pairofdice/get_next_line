@@ -19,7 +19,7 @@ int	main(void)
 {
 	int		fd;
 	char	*line;
-	char	*tests[] = { "x100_test",  0};
+	char	*tests[] = { "a_test", "aaaa_test", "many_empty", "long_lines", "150xlorem", "plato",  0};
 	int		i;
 	int		i2 = 0;
 	int x = 0;
@@ -40,15 +40,10 @@ int	main(void)
 			ft_strdel(&line);
 			/* i2++; */
 		}
-		{
-
 /* 		while (x++ < 10)
 		{
 			ft_putnbr( get_next_line(fd, &line)); */
-			}
 		x= 0;
-
-
 		i++;
 	}
 
