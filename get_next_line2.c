@@ -31,15 +31,44 @@ void jotain(t_vec *buffer, char **line)
 		buffer->len = 0;
 	}
 }
+void read_into_buff(t_vec *buffer, char **line, const int fd)
+{
+	t_vec			transfer;
+	ssize_t			ret;
+	char			*hodl;
+	char			read_into[BUFF_SIZE + 1];
+
+	hodl = ft_strchr(buffer->memory, '\n');
+	if (hodl)
+	{
+		*hodl = '\0';
+		jotain(buffer, line);
+		return (1); 
+	} 
+	ret = read(fd, read_into, BUFF_SIZE);
+	while (ret > 0)
+	{
+		read_into[ret] = '\0';
+		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
+		vec_append(buffer, &transfer);
+		hodl = ft_strchr(buffer->memory, '\n');
+		if (hodl)
+		{
+			while (hodl)
+			{
+				*hodl = '\0';						
+				hodl = ft_strchr(buffer->memory, '\n');
+			}
+			break; 								
+		}
+		ret = read(fd, read_into, BUFF_SIZE);
+	}
+}
 
 int	get_next_line(const int fd, char **line)
 {
-	char			read_into[BUFF_SIZE + 1];
-	char			*hodl;
 	t_vec			*fd_seen[MAX_FD];
-	t_vec			transfer;
 	static t_vec	buffer;
-	ssize_t			ret;
 	int				len;
 
 if (!fd_seen[fd])
@@ -48,44 +77,7 @@ if (!fd_seen[fd])
 	fd_seen[fd] = &buffer;
 }
 
-
-hodl = ft_strchr(fd_seen[fd]->memory, '\n');
-if (hodl)
-{
-	*hodl = '\0';						// fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
-	jotain(fd_seen[fd], line);
-	/* ft_putendl("here"); */
-	return (1); 								// maybe push null terminator onto fd_seen[fd] here
-} 
-
-/* if (i > 0)
-{
- 	printf("%s   %i\n", fd_seen[fd]->memory, i); 
-	if (i > 6)
-		return 0;
-}
- */
-
-ret = read(fd, read_into, BUFF_SIZE);
-while (ret > 0)
-{
-	read_into[ret] = '\0';					//vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-	/* vec_strapp(fd_seen[fd], read_into); */
-	vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-	vec_append(fd_seen[fd], &transfer);
-
-	hodl = ft_strchr(fd_seen[fd]->memory, '\n');
-	if (hodl)
-	{
-		while (hodl)
-		{
-			*hodl = '\0';						// fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
-			hodl = ft_strchr(fd_seen[fd]->memory, '\n');
-		}
-		break; 								// maybe push null terminator onto fd_seen[fd] here
-	}
-	ret = read(fd, read_into, BUFF_SIZE);
-}
+read_into_buff(fd_seen[fd], line, fd);
 
 if (fd_seen[fd]->len <= 0)
 {
@@ -93,21 +85,6 @@ if (fd_seen[fd]->len <= 0)
 	fd_seen[fd] = 0;
 	return (0);
 }
-
-
-/* 	*line = ft_strdup(fd_seen[fd]->memory);
-	len = ft_strlen(fd_seen[fd]->memory);
-	if (fd_seen[fd]->len > len + 1) // We need to memcpy instead of move pointer
-	{
-		// fd_seen[fd]->memory += len + 1;
-		ft_memcpy(fd_seen[fd]->memory, &fd_seen[fd]->memory[len + 1], fd_seen[fd]->len - len + 1);
-		fd_seen[fd]->len -= len + 1; 
-	}
-	else
-	{
-		fd_seen[fd]->len = 0;
-	} */
 	jotain(fd_seen[fd], line);
-
 	return (1);
 }
