@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/09 20:02:24 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/11 20:55:24 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 {
 	int		fd;
 	char	*line;
-	char	*tests[] = { /* "a_test", "aaaa_test", "many_empty",  "long_lines", "150xlorem", "plato",  "test_bible",   */"10_superlongsentence_no_newline",  0};
+	char	*tests[] = { "a_test", "aaaa_test", "many_empty",  "long_lines", /* "150xlorem", "plato",  "test_bible",   "10_superlongsentence_no_newline", */  0};
 	int		i;
 	int		i2 = 0;
 	int x = 0;
@@ -41,7 +41,7 @@ int	main(void)
 			printf(" %s\n", line);
 			ft_strdel(&line);
 			//x++;
-			
+
 		}
 /* 		while (x++ < 10)
 		{

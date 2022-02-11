@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/10 11:19:56 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/11 20:59:13 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void jotain(t_vec *buffer, char **line)
 	{
 		/* fd_seen[fd]->memory += len + 1;*/
 		ft_memcpy(buffer->memory, &buffer->memory[len + 1], buffer->len - len + 1);
-		buffer->len -= len + 1; 
+		buffer->len -= len + 1;
 	}
 		else
 	{
@@ -38,13 +38,7 @@ void read_into_buff(t_vec *buffer, char **line, const int fd)
 	char			*hodl;
 	char			read_into[BUFF_SIZE + 1];
 
-	hodl = ft_strchr(buffer->memory, '\n');
-	if (hodl)
-	{
-		*hodl = '\0';
-		jotain(buffer, line);
-		return (1); 
-	} 
+
 	ret = read(fd, read_into, BUFF_SIZE);
 	while (ret > 0)
 	{
@@ -56,10 +50,10 @@ void read_into_buff(t_vec *buffer, char **line, const int fd)
 		{
 			while (hodl)
 			{
-				*hodl = '\0';						
+				*hodl = '\0';
 				hodl = ft_strchr(buffer->memory, '\n');
 			}
-			break; 								
+			break;
 		}
 		ret = read(fd, read_into, BUFF_SIZE);
 	}
@@ -70,12 +64,20 @@ int	get_next_line(const int fd, char **line)
 	t_vec			*fd_seen[MAX_FD];
 	static t_vec	buffer;
 	int				len;
+	char			*hodl;
 
 if (!fd_seen[fd])
 {
 	vec_new(&buffer, BUFF_SIZE * 2, 1);
 	fd_seen[fd] = &buffer;
 }
+	hodl = ft_strchr(buffer.memory, '\n');
+	if (hodl)
+	{
+		*hodl = '\0';
+		jotain(&buffer, line);
+		return (1);
+	}
 
 read_into_buff(fd_seen[fd], line, fd);
 
