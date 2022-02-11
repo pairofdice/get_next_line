@@ -14,10 +14,23 @@
 #include <stdio.h>
 
 
-/* void jotain(t_vec &buffer)
+void jotain(t_vec *buffer, char **line)
 {
+	ssize_t	len;
+	*line = ft_strdup(buffer->memory);
+	len = ft_strlen(buffer->memory);
 
-} */
+	if (buffer->len > len + 1) // We need to memcpy instead of move pointer
+	{
+		/* fd_seen[fd]->memory += len + 1;*/
+		ft_memcpy(buffer->memory, &buffer->memory[len + 1], buffer->len - len + 1);
+		buffer->len -= len + 1; 
+	}
+		else
+	{
+		buffer->len = 0;
+	}
+}
 
 int	get_next_line(const int fd, char **line)
 {
@@ -40,15 +53,7 @@ hodl = ft_strchr(fd_seen[fd]->memory, '\n');
 if (hodl)
 {
 	*hodl = '\0';						// fd_seen[fd]->len = ft_strlen(fd_seen[fd]->memory  ) + 1;
-	*line = ft_strdup(fd_seen[fd]->memory);
-	len = ft_strlen(fd_seen[fd]->memory);
-
-	if (fd_seen[fd]->len > len + 1) // We need to memcpy instead of move pointer
-	{
-		/* fd_seen[fd]->memory += len + 1;*/
-		ft_memcpy(fd_seen[fd]->memory, &fd_seen[fd]->memory[len + 1], fd_seen[fd]->len - len + 1);
-		fd_seen[fd]->len -= len + 1; 
-	}
+	jotain(fd_seen[fd], line);
 	/* ft_putendl("here"); */
 	return (1); 								// maybe push null terminator onto fd_seen[fd] here
 } 
@@ -65,9 +70,9 @@ ret = read(fd, read_into, BUFF_SIZE);
 while (ret > 0)
 {
 	read_into[ret] = '\0';					//vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-	vec_strapp(fd_seen[fd], read_into);
-/* 	vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-	vec_append(fd_seen[fd], &transfer); */
+	/* vec_strapp(fd_seen[fd], read_into); */
+	vec_from(&transfer, read_into, ft_strlen(read_into), 1);
+	vec_append(fd_seen[fd], &transfer);
 
 	hodl = ft_strchr(fd_seen[fd]->memory, '\n');
 	if (hodl)
@@ -90,19 +95,19 @@ if (fd_seen[fd]->len <= 0)
 }
 
 
-
-	*line = ft_strdup(fd_seen[fd]->memory);
+/* 	*line = ft_strdup(fd_seen[fd]->memory);
 	len = ft_strlen(fd_seen[fd]->memory);
 	if (fd_seen[fd]->len > len + 1) // We need to memcpy instead of move pointer
 	{
-		/* fd_seen[fd]->memory += len + 1;*/
+		// fd_seen[fd]->memory += len + 1;
 		ft_memcpy(fd_seen[fd]->memory, &fd_seen[fd]->memory[len + 1], fd_seen[fd]->len - len + 1);
 		fd_seen[fd]->len -= len + 1; 
 	}
 	else
 	{
 		fd_seen[fd]->len = 0;
-	}
+	} */
+	jotain(fd_seen[fd], line);
 
 	return (1);
 }
