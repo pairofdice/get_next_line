@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:17:40 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/01/21 18:58:19 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/12 14:51:03 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_list
 typedef struct s_vec
 {
 	char			*memory;
+	char			*index;
 	size_t			elem_size;
 	size_t			alloc_size;
 	size_t			len;
