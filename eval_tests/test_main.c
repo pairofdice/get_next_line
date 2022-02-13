@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:58:13 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/11 22:33:47 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/13 23:23:52 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(void)
 	int		fd;
 	char	*line;
 	int		i;
-	char	*tests[] = { /*   "a_test",  "aaaa_test",  "many_empty",  "long_lines",  "150xlorem", "plato",  "test_bible",  */   "10_superlongsentence_no_newline", 0};
+	char	*tests[] = {  "a_test",  "aaaa_test", "x100_test", "many_empty",  "long_lines",  /*"150xlorem", "plato",  "test_bible",       "10_superlongsentence_no_newline", */ 0};
 
 	clock_t tic = clock();
 	i = 0;

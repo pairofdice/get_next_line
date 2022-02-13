@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/11 22:52:02 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/13 22:21:45 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,67 +14,68 @@
 #include <stdio.h>
 
 
-void	jotain(t_vec *buffer, char **line)
+void	output(t_vec *storage, char **line)
 {
 	ssize_t	len;
 
-	*line = ft_strdup(buffer->memory);
-	len = ft_strlen(buffer->memory);
-	if (buffer->len > len + 1)
+	*line = ft_strdup(storage->memory);
+	len = ft_strlen(storage->memory);
+	if (storage->len > len + 1)
 	{
-		ft_memcpy(buffer->memory,
-			&buffer->memory[len + 1],
-			buffer->len - len + 1);
-		buffer->len -= len + 1;
+		ft_memcpy(storage->memory,
+			&storage->memory[len + 1],
+			storage->len - len + 1);
+		storage->len -= len + 1;
 	}
 	else
-		buffer->len = 0;
+		storage->len = 0;
 }
 
-void	read_into_storage(t_vec *buffer, char **line, const int fd)
+void	read_into_storage(t_vec *storage, char **line, const int fd)
 {
 	t_vec	transfer;
 	ssize_t	ret;
 	char	*hodl;
-	char	read_into[BUFF_SIZE + 1];
+	char	buffer[BUFF_SIZE + 1];
 
-	ret = read(fd, read_into, BUFF_SIZE);
+	ret = read(fd, buffer, BUFF_SIZE);
 	while (ret > 0)
 	{
-		read_into[ret] = '\0';
-		vec_from(&transfer, read_into, ft_strlen(read_into), 1);
-		vec_append(buffer, &transfer);
-		hodl = ft_strchr(buffer->memory, '\n');
+		buffer[ret] = '\0';
+		//vec_strapp(storage, buffer);
+		vec_from(&transfer, buffer, ft_strlen(buffer), 1);
+		vec_append(storage, &transfer);
+		hodl = ft_strchr(storage->memory, '\n');
 		if (hodl)
 		{
 			while (hodl)
 			{
 				*hodl = '\0';
-				hodl = ft_strchr(buffer->memory, '\n');
+				hodl = ft_strchr(storage->memory, '\n');
 			}
 			break ;
 		}
-		ret = read(fd, read_into, BUFF_SIZE);
+		ret = read(fd, buffer, BUFF_SIZE);
 	}
 }
 
 int	get_next_line(const int fd, char **line)
 {
 	t_vec			*fd_seen[MAX_FD];
-	static t_vec	buffer;
+	static t_vec	storage;
 	int				len;
 	char			*hodl;
 
 	if (!fd_seen[fd])
 	{
-		vec_new(&buffer, BUFF_SIZE * 2, 1);
-		fd_seen[fd] = &buffer;
+		vec_new(&storage, BUFF_SIZE * 2, 1);
+		fd_seen[fd] = &storage;
 	}
-	hodl = ft_strchr(buffer.memory, '\n');
+	hodl = ft_strchr(storage.memory, '\n');
 	if (hodl)
 	{
 		*hodl = '\0';
-		jotain(&buffer, line);
+		output(&storage, line);
 		return (1);
 	}
 	read_into_storage(fd_seen[fd], line, fd);
@@ -84,6 +85,6 @@ int	get_next_line(const int fd, char **line)
 		fd_seen[fd] = 0;
 		return (0);
 	}
-	jotain(fd_seen[fd], line);
+	output(fd_seen[fd], line);
 	return (1);
 }
