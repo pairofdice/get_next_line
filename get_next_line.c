@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/13 22:21:45 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:25:56 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,33 +64,33 @@ int		read_into_storage(t_vec *storage, const int fd)
 
 int	get_next_line(const int fd, char **line)
 {
-	t_vec			*fd_seen[MAX_FD];
+	static t_vec			fd_seen[MAX_FD];
 	static t_vec	storage;
 	char			*hodl;
 
 	if (fd < 0 || fd >= MAX_FD || line == NULL)
 		return (-1);
 
-	if (!fd_seen[fd])
+	if (!fd_seen[fd].memory)
 	{
-		vec_new(&storage, BUFF_SIZE * 2, 1);
-		fd_seen[fd] = &storage;
+		vec_new(&fd_seen[fd], BUFF_SIZE * 2, 1);
+		//fd_seen[fd] = storage;
 	}
-	hodl = ft_strchr(storage.memory, '\n');
+	hodl = ft_strchr(fd_seen[fd].memory, '\n');
 	if (hodl)
 	{
 		*hodl = '\0';
-		output(&storage, line);
+		output(&fd_seen[fd], line);
 		return (1);
 	}
-	if (read_into_storage(fd_seen[fd], fd) < 0)
+	if (read_into_storage(&fd_seen[fd], fd) < 0)
 		return (-1);
-	if (fd_seen[fd]->len <= 0)
+	if (fd_seen[fd].len <= 0)
 	{
-		vec_free(fd_seen[fd]);
-		fd_seen[fd] = 0;
+		vec_free(&fd_seen[fd]);
+		//fd_seen[fd] = NULL;
 		return (0);
 	}
-	output(fd_seen[fd], line);
+	output(&fd_seen[fd], line);
 	return (1);
 }
