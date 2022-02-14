@@ -18,22 +18,37 @@
 int	main(void)
 {
 	int		fd;
+	int		ret;
 	char	*line;
 	int		i;
-	char	*tests[] = {  "a_test",  "aaaa_test", "x100_test", "many_empty",  "long_lines",  /*"150xlorem", "plato",  "test_bible",       "10_superlongsentence_no_newline", */ 0};
+	char	*tests[] = {/* "a_test",
+		"aaaa_test",
+		"x100_test",
+		"many_empty",
+		"long_lines", */ 
+		"gnl7_1.txt",
+		/*"150xlorem",
+		"plato",
+		"test_bible",
+		"10_superlongsentence_no_newline", */ 0};
 
 	clock_t tic = clock();
 	i = 0;
 	while (tests[i])
 	{
+		ret = 1;
 		ft_putstr("Test: ");
 		ft_putnbr(i);
 		ft_putchar('\n');
 		fd = open(tests[i], O_RDONLY);
-		while (get_next_line(fd, &line) )
+		while (get_next_line(fd, &line))
 		{
-			printf(" %s\n", line);
+			//get_next_line(fd, &line);
+			printf(" %s", line);
+			//ret++;
 			ft_strdel(&line);
+			//if (ret == 3)
+			//	break;
 		}
 		i++;
 	}

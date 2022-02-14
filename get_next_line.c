@@ -11,12 +11,10 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
 
 void	output(t_vec *storage, char **line)
 {
-	ssize_t	len;
+	size_t	len;
 
 	*line = ft_strdup(storage->memory);
 	len = ft_strlen(storage->memory);
@@ -31,7 +29,7 @@ void	output(t_vec *storage, char **line)
 		storage->len = 0;
 }
 
-void	read_into_storage(t_vec *storage, char **line, const int fd)
+int		read_into_storage(t_vec *storage, const int fd)
 {
 	t_vec	transfer;
 	ssize_t	ret;
@@ -39,6 +37,7 @@ void	read_into_storage(t_vec *storage, char **line, const int fd)
 	char	buffer[BUFF_SIZE + 1];
 
 	ret = read(fd, buffer, BUFF_SIZE);
+
 	while (ret > 0)
 	{
 		buffer[ret] = '\0';
@@ -55,16 +54,22 @@ void	read_into_storage(t_vec *storage, char **line, const int fd)
 			}
 			break ;
 		}
+
 		ret = read(fd, buffer, BUFF_SIZE);
 	}
+	if (!hodl && ret == 0)
+		storage->memory[storage->len] = '\0';
+	return (ret);
 }
 
 int	get_next_line(const int fd, char **line)
 {
 	t_vec			*fd_seen[MAX_FD];
 	static t_vec	storage;
-	int				len;
 	char			*hodl;
+
+	if (fd < 0 || fd >= MAX_FD || line == NULL)
+		return (-1);
 
 	if (!fd_seen[fd])
 	{
@@ -78,7 +83,8 @@ int	get_next_line(const int fd, char **line)
 		output(&storage, line);
 		return (1);
 	}
-	read_into_storage(fd_seen[fd], line, fd);
+	if (read_into_storage(fd_seen[fd], fd) < 0)
+		return (-1);
 	if (fd_seen[fd]->len <= 0)
 	{
 		vec_free(fd_seen[fd]);
