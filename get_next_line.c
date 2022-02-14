@@ -54,10 +54,9 @@ int		read_into_storage(t_vec *storage, const int fd)
 			}
 			break ;
 		}
-
 		ret = read(fd, buffer, BUFF_SIZE);
 	}
-	if (!hodl && ret == 0)
+	if (!hodl || ret == 0)
 		storage->memory[storage->len] = '\0';
 	return (ret);
 }
@@ -65,7 +64,7 @@ int		read_into_storage(t_vec *storage, const int fd)
 int	get_next_line(const int fd, char **line)
 {
 	static t_vec			fd_seen[MAX_FD];
-	static t_vec	storage;
+	//static t_vec	storage;
 	char			*hodl;
 
 	if (fd < 0 || fd >= MAX_FD || line == NULL)
@@ -81,6 +80,7 @@ int	get_next_line(const int fd, char **line)
 	{
 		*hodl = '\0';
 		output(&fd_seen[fd], line);
+		
 		return (1);
 	}
 	if (read_into_storage(&fd_seen[fd], fd) < 0)

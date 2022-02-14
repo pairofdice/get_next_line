@@ -46,32 +46,36 @@ int	main(void)
 	i = 0;
 		fd2 = open(tests[0], O_RDONLY);
 		fd3 = open(tests[1], O_RDONLY);
+	int c;
 	while (tests[i])
 	{
 		x = 0;
-		ft_putstr("Test: ");
-		ft_putnbr(i);
-		ft_putchar('\n');
+		//ft_putstr("Test: ");
+		printf("Test: %d\n", i);
+
 		fd = open(tests[i], O_RDONLY);
-		while (x < 3)
+		c = 1;
+		while (x <3)
 		{
-			get_next_line(fd, &line);
-			printf(" %s \n", line);
+			c = get_next_line(fd, &line);
+			printf("%d %s\n",c, line);
 			//ret++;
 			ft_strdel(&line);
 			//if (ret == 3)
 			//	break;
 			x++;
 		}
-
+		printf("-----\n");
 		i++;
 	}
-		printf("-----\n");
-		x =0;
+
+		c = 1;
+		x = 0;
 		while (x < 3)
 		{
-			get_next_line(fd2, &line);
-			printf(" %s \n", line);
+			
+			c = get_next_line(fd2, &line);
+			printf("%d %s\n",c, line);
 			//ret++;
 			ft_strdel(&line);
 			//if (ret == 3)
@@ -79,11 +83,25 @@ int	main(void)
 			x++;
 		}
 		printf("-----\n");
-		x =0;
-		while (x < 3)
+		c = 1;
+		while (c)
 		{
-			get_next_line(fd, &line);
-			printf(" %s \n", line);
+			
+			c = get_next_line(fd, &line);
+			printf("%d %s\n",c, line);
+			//ret++;
+			ft_strdel(&line);
+			//if (ret == 3)
+			//	break;
+			x++;
+		}
+				printf("-----\n");
+		c = 1;
+		while (c)
+		{
+			
+			c = get_next_line(fd2, &line);
+			printf("%d %s\n",c, line);
 			//ret++;
 			ft_strdel(&line);
 			//if (ret == 3)
@@ -93,7 +111,7 @@ int	main(void)
 
     clock_t toc = clock();
     printf("Elapsed: %f seconds\n", (double)(toc - tic) / CLOCKS_PER_SEC);
-	system("leaks a.out");
+	//system("leaks a.out");
 	return (0);
 }
 
