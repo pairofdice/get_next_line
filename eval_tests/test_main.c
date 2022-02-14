@@ -21,11 +21,12 @@ int	main(void)
 	int		ret;
 	char	*line;
 	int		i;
-	char	*tests[] = {"a_test",
+	char	*tests[] = {/* "a_test",
 		"aaaa_test",
 		"x100_test",
 		"many_empty",
-		"long_lines", 
+		"long_lines", */ 
+		"gnl7_1.txt",
 		/*"150xlorem",
 		"plato",
 		"test_bible",
@@ -43,7 +44,7 @@ int	main(void)
 		while (get_next_line(fd, &line))
 		{
 			//get_next_line(fd, &line);
-			printf(" %s\n", line);
+			printf(" %s", line);
 			//ret++;
 			ft_strdel(&line);
 			//if (ret == 3)
