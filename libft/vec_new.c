@@ -29,7 +29,6 @@ int	vec_new(t_vec *src, size_t init_len, size_t elem_size)
 		if (!src->memory)
 			return (-1);
 	}
-	src->index = src->memory;
 	src->len = 0;
 	src->alloc_size = init_len * elem_size;
 	src->elem_size = elem_size;

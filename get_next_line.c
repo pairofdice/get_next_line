@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
 
 void	output(t_vec *storage, char **line)
 {
-	ssize_t	len;
+	size_t	len;
+
+	//vec_push(storage, "\0");
 
 	*line = ft_strdup(storage->memory);
 	len = ft_strlen(storage->memory);
@@ -31,7 +31,7 @@ void	output(t_vec *storage, char **line)
 		storage->len = 0;
 }
 
-void	read_into_storage(t_vec *storage, char **line, const int fd)
+void	read_into_storage(t_vec *storage, const int fd)
 {
 	t_vec	transfer;
 	ssize_t	ret;
@@ -63,7 +63,6 @@ int	get_next_line(const int fd, char **line)
 {
 	t_vec			*fd_seen[MAX_FD];
 	static t_vec	storage;
-	int				len;
 	char			*hodl;
 
 	if (!fd_seen[fd])
@@ -78,7 +77,7 @@ int	get_next_line(const int fd, char **line)
 		output(&storage, line);
 		return (1);
 	}
-	read_into_storage(fd_seen[fd], line, fd);
+	read_into_storage(fd_seen[fd], fd);
 	if (fd_seen[fd]->len <= 0)
 	{
 		vec_free(fd_seen[fd]);
