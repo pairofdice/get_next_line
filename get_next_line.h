@@ -6,14 +6,14 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 14:13:00 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/14 16:00:01 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/15 13:22:45 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 9
+# define BUFF_SIZE 1
 # define MAX_FD 8192
 
 # include <fcntl.h>

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/15 13:06:20 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/15 13:18:22 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ void	output(t_vec *storage, char **line)
 	if (storage->len > len + 1)
 	{
 		ft_memcpy(storage->memory,
+			// len means strlen here so just the first line
 			&storage->memory[len + 1],
 			storage->len - len + 1);
 		storage->len -= len + 1;
 	}
-	else // otherwise we're done here, because we read until newline or end of file
+	else // otherwise we're done with the file, because we read until newline or end of file
 		storage->len = 0;
 }
 
@@ -47,6 +48,7 @@ int		read_into_storage(t_vec *storage, const int fd)
 		//vec_strapp(storage, buffer);
 
 		// makes a vec from the string we read so we can add it to storage
+		// excludes string null terminator
 		vec_from(&transfer, buffer, ft_strlen(buffer), 1);
 		vec_append(storage, &transfer);
 		hodl = ft_strchr(storage->memory, '\n');
