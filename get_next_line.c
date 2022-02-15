@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/14 16:25:56 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/15 13:06:20 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	output(t_vec *storage, char **line)
 {
 	size_t	len;
 
+	// newlines have been replaced with terminators so str funs work
 	*line = ft_strdup(storage->memory);
 	len = ft_strlen(storage->memory);
+	// storage->len doesn't include null terminator so +1
+	// if we have more stuff in memory than the latest line, move it up
 	if (storage->len > len + 1)
 	{
 		ft_memcpy(storage->memory,
@@ -25,7 +28,7 @@ void	output(t_vec *storage, char **line)
 			storage->len - len + 1);
 		storage->len -= len + 1;
 	}
-	else
+	else // otherwise we're done here, because we read until newline or end of file
 		storage->len = 0;
 }
 
@@ -42,12 +45,14 @@ int		read_into_storage(t_vec *storage, const int fd)
 	{
 		buffer[ret] = '\0';
 		//vec_strapp(storage, buffer);
+
+		// makes a vec from the string we read so we can add it to storage
 		vec_from(&transfer, buffer, ft_strlen(buffer), 1);
 		vec_append(storage, &transfer);
 		hodl = ft_strchr(storage->memory, '\n');
 		if (hodl)
 		{
-			while (hodl)
+			while (hodl) // weird nested newline search, I dont even know
 			{
 				*hodl = '\0';
 				hodl = ft_strchr(storage->memory, '\n');
@@ -57,7 +62,7 @@ int		read_into_storage(t_vec *storage, const int fd)
 		ret = read(fd, buffer, BUFF_SIZE);
 	}
 	if (!hodl || ret == 0)
-		storage->memory[storage->len] = '\0';
+		storage->memory[storage->len] = '\0'; // looks sus, probably is
 	return (ret);
 }
 
@@ -69,23 +74,18 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd < 0 || fd >= MAX_FD || line == NULL)
 		return (-1);
-
 	if (!fd_seen[fd].memory)
-	{
 		vec_new(&fd_seen[fd], BUFF_SIZE * 2, 1);
-		//fd_seen[fd] = storage;
-	}
 	hodl = ft_strchr(fd_seen[fd].memory, '\n');
-	if (hodl)
+	if (hodl) // If we read more than one line into memory last go around...
 	{
 		*hodl = '\0';
 		output(&fd_seen[fd], line);
-		
 		return (1);
 	}
 	if (read_into_storage(&fd_seen[fd], fd) < 0)
 		return (-1);
-	if (fd_seen[fd].len <= 0)
+	if (fd_seen[fd].len <= 0) // When we have exhausted our storage we're done
 	{
 		vec_free(&fd_seen[fd]);
 		//fd_seen[fd] = NULL;
