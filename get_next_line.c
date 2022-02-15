@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/15 13:29:45 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/15 16:20:33 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		read_into_storage(t_vec *storage, const int fd)
 		{
 			// weird nested newline search, I dont even know
 			// we replace all \n with \0 that we read into storage,
-			// while stopping on the first one
+			// while stopping more reads on the first newline
 			while (hodl)
 			{
 				*hodl = '\0';
@@ -74,7 +74,7 @@ int		read_into_storage(t_vec *storage, const int fd)
 
 int	get_next_line(const int fd, char **line)
 {
-	static t_vec			fd_seen[MAX_FD];
+	static t_vec	fd_seen[MAX_FD];
 	char			*hodl;
 
 	if (fd < 0 || fd >= MAX_FD || line == NULL)
@@ -83,7 +83,7 @@ int	get_next_line(const int fd, char **line)
 		vec_new(&fd_seen[fd], BUFF_SIZE * 2, 1);
 	hodl = ft_strchr(fd_seen[fd].memory, '\n');
 	if (hodl) // If we read more than one line into memory last go around...
-	{
+	{		// But wait a moment I thought I changed all newlines to Terminator
 		*hodl = '\0';
 		output(&fd_seen[fd], line);
 		return (1);
