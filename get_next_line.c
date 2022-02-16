@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/15 16:20:33 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:25:56 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,15 @@ void	output(t_vec *storage, char **line)
 {
 	size_t	len;
 
-	// newlines have been replaced with terminators so str funs work
 	*line = ft_strdup(storage->memory);
 	len = ft_strlen(storage->memory);
 	if (storage->len - (len + 1))
 	{
 		ft_memcpy(storage->memory,
-			// len means strlen here so just the first line
 			&storage->memory[len + 1],
 			storage->len - len + 1);
 		storage->len -= len + 1;
 	}
-	// otherwise we're done with the file, because we read until
-	// newline or end of file
 	else
 		storage->len = 0;
 }
@@ -71,7 +67,7 @@ int	read_into_storage(t_vec *storage, const int fd)
 /*
 	First we check if we already read another line into storage turn it 
 	into a string and output.
-	After reading we check if our storage is empty and if so, free and return
+	After reading we check if our storage is empty and if so, free and
 */
 int	get_next_line(const int fd, char **line)
 {
@@ -91,7 +87,7 @@ int	get_next_line(const int fd, char **line)
 	}
 	if (read_into_storage(&fd_seen[fd], fd) < 0)
 		return (-1);
-	if (fd_seen[fd].len <= 0) // When we have exhausted our storage we're done
+	if (fd_seen[fd].len <= 0)
 	{
 		vec_free(&fd_seen[fd]);
 		return (0);
