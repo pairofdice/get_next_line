@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_strapp.c                                       :+:      :+:    :+:   */
+/*   ft_strnchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/16 13:05:58 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/16 13:06:02 by jsaarine         ###   ########.fr       */
+/*   Created: 2022/02/16 11:20:58 by jsaarine          #+#    #+#             */
+/*   Updated: 2022/02/16 11:21:16 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-int	vec_strapp(t_vec *vec, char *str)
+char	*ft_strnchr(const char *s, int c, size_t n)
 {
-	ssize_t	len;
+	int	len;
+	int	i;
 
-	if (!vec || !str)
-		return (-1);
-	len = ft_strlen(str);
-	if ((vec->len * vec->elem_size) + len >= vec->alloc_size)
-		if (vec_resize(vec, (vec->len + len) * 2) == -1)
-			return (-1);
-	ft_memcpy(&vec->memory[vec->len * vec->elem_size], str, len);
-	vec->len += len;
-	return (1);
+	if (n == 0)
+		return (0);
+		i = 0;
+	len = ft_strlen(s);
+	while (i <= len && n)
+	{
+		if (s[i] == (char) c)
+			return ((char *)s + i);
+		i++;
+		n--;
+	}
+	return (NULL);
 }
