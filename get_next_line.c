@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/14 16:25:56 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/15 16:20:33 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,25 @@ void	output(t_vec *storage, char **line)
 {
 	size_t	len;
 
+	// newlines have been replaced with terminators so str funs work
 	*line = ft_strdup(storage->memory);
 	len = ft_strlen(storage->memory);
+<<<<<<< HEAD
 	if (storage->len - (len + 1))
+=======
+	// storage->len doesn't include null terminator so +1
+	// if we have more stuff in memory than the latest line, move it up
+	if (storage->len > len + 1)
+>>>>>>> bc42ab3268fd71793bb6220f0a7832abdac14fb8
 	{
 		ft_memcpy(storage->memory,
+			// len means strlen here so just the first line
 			&storage->memory[len + 1],
 			storage->len - len + 1);
 		storage->len -= len + 1;
 	}
+	// otherwise we're done with the file, because we read until
+	// newline or end of file
 	else
 		storage->len = 0;
 }
@@ -87,7 +97,7 @@ int	get_next_line(const int fd, char **line)
 	}
 	if (read_into_storage(&fd_seen[fd], fd) < 0)
 		return (-1);
-	if (fd_seen[fd].len <= 0)
+	if (fd_seen[fd].len <= 0) // When we have exhausted our storage we're done
 	{
 		vec_free(&fd_seen[fd]);
 		return (0);
