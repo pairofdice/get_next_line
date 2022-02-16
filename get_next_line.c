@@ -23,13 +23,7 @@ void	output(t_vec *storage, char **line)
 	// newlines have been replaced with terminators so str funs work
 	*line = ft_strdup(storage->memory);
 	len = ft_strlen(storage->memory);
-<<<<<<< HEAD
 	if (storage->len - (len + 1))
-=======
-	// storage->len doesn't include null terminator so +1
-	// if we have more stuff in memory than the latest line, move it up
-	if (storage->len > len + 1)
->>>>>>> bc42ab3268fd71793bb6220f0a7832abdac14fb8
 	{
 		ft_memcpy(storage->memory,
 			// len means strlen here so just the first line
