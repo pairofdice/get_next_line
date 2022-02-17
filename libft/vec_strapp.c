@@ -6,13 +6,18 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 13:05:58 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/16 13:06:02 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/17 19:08:40 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
+/*
+	Takes a string and a vector and appends the string onto the vec.
+	Checks if sum of lens is larger than reserved memory, if so resizes
+	Then just straight memcpy to the end of vec and update len
+ */
 int	vec_strapp(t_vec *vec, char *str)
 {
 	ssize_t	len;

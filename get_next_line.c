@@ -6,17 +6,18 @@
 /*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 13:49:28 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/02/17 19:04:13 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/02/17 20:06:38 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 /*
-	Copy output from storage to line.
+	Copy from storage to line for output.
 	Move contents of storage up.
 	If this is the last line, set storage to 0
  */
-void	output(t_vec *storage, char **line)
+static void	output(t_vec *storage, char **line)
 {
 	size_t	len;
 
@@ -37,9 +38,10 @@ void	output(t_vec *storage, char **line)
 	vec_strapp appends our read buffer into our storage vector.
 	We search for a newline and if found set it to be a terminator.
 	If we didn't find a newline and we didn't read anything and
-	we have something in storage, we need to terminate it with \0
+	we have something in storage, it means this is the last line of the
+	file and our storage isn't properly terminated so we push a \0 to the end
  */
-int	read_into_storage(t_vec *storage, const int fd)
+static int	read_into_storage(t_vec *storage, const int fd)
 {
 	ssize_t	ret;
 	char	*hodl;
@@ -67,7 +69,7 @@ int	read_into_storage(t_vec *storage, const int fd)
 /*
 	First we check if we already read another line into storage turn it
 	into a string and output.
-	After reading we check if our storage is empty and if so, free and
+	After reading we check if our storage is empty and if so, free, else output
 */
 int	get_next_line(const int fd, char **line)
 {
