@@ -28,17 +28,17 @@ int	main(void)
 		"a_test",
 		"aaaa_test",
 		"many_empty",
-		*/
 		"x100_test",
 		"test_text.txt",
 		"12345.txt",
-		/*
 		"long_lines",
 		"gnl7_1.txt",
 		"150xlorem",
 		"plato",
 		"test_bible",
+		*/
 		"10_superlongsentence_no_newline",
+		/*
 		*/
 		0};
 
@@ -58,6 +58,8 @@ int	main(void)
 		while (x <3)
 		{
 			c = get_next_line(fd, &line);
+			if (!line)
+				printf("line is NULLn");
 			printf("%d %s\n",c, line);
 			//ret++;
 			ft_strdel(&line);
@@ -75,6 +77,8 @@ int	main(void)
 		{
 			
 			c = get_next_line(fd2, &line);
+			if (!line)
+				printf("line is NULLn");
 			printf("%d %s\n",c, line);
 			//ret++;
 			ft_strdel(&line);
@@ -88,6 +92,8 @@ int	main(void)
 		{
 			
 			c = get_next_line(fd, &line);
+			if (!line)
+				printf("line is NULL ");
 			printf("%d %s\n",c, line);
 			//ret++;
 			ft_strdel(&line);
@@ -101,6 +107,8 @@ int	main(void)
 		{
 			
 			c = get_next_line(fd2, &line);
+			if (!line)
+				printf("line is NULL ");
 			printf("%d %s\n",c, line);
 			//ret++;
 			ft_strdel(&line);
